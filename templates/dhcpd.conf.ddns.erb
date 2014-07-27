@@ -1,7 +1,7 @@
+<% if @enable -%>
 # ----------
 # Dynamic DNS Updates
 # ----------
-<% if @enable -%>
 ddns-updates on;
 ddns-update-style interim;
 update-static-leases on;
@@ -9,14 +9,13 @@ use-host-decl-names on;
 
 # Key from bind
 include "<%= key %>";
-<% domains.each do |dom| -%>
+<%   domains.each do |dom| -%>
 zone <%= dom %>. {
   primary <%= zonemaster %>;
   key <%= key.split('/').last %>;
 }
 
-<% end -%>
+<%   end -%>
 <% else -%>
-ddns-update-style none;
-
-<% end -%>
+#ddns-update-style none;
+<% end %>

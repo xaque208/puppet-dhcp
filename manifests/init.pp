@@ -46,6 +46,7 @@ class dhcp (
   $packagename         = $dhcp::params::packagename,
   $servicename         = $dhcp::params::servicename,
   $dhcpd               = $dhcp::params::dhcpd,
+  $conftest            = $dhcp::params::conftest,
 ) inherits dhcp::params {
 
   include concat::setup
@@ -123,7 +124,7 @@ class dhcp (
     ensure    => running,
     enable    => true,
     hasstatus => true,
-    restart   => "${dhcpd} -t && service ${servicename} restart",
+    restart   => "${conftest} && service ${servicename} restart",
     require => $packagename ? {
       undef   => undef,
       default => Package[$packagename],

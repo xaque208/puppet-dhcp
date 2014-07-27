@@ -50,4 +50,9 @@ class dhcp::params {
       $logfacility = 'daemon'
     }
   }
+
+  $conftest = $::operatingsystem ? {
+    'OpenBSD' => "${dhcpd} -n",
+    default   => "${dhcpd} -t",
+  }
 }

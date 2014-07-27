@@ -49,6 +49,8 @@ class dhcp (
 ) inherits dhcp::params {
 
 
+  include concat::setup
+
   # Incase people set interface instead of interfaces work around
   # that. If they set both, use interfaces and the user is a unwise
   # and deserves what they get.
@@ -75,9 +77,6 @@ class dhcp (
       #include dhcp::openbsd
     }
   }
-
-  include concat::setup
-
   #
   # Build up the dhcpd.conf
   concat {  "${dhcp_dir}/dhcpd.conf": }
@@ -136,24 +135,22 @@ class dhcp (
   concat::fragment { 'dhcp-hosts-header':
     target  => "${dhcp_dir}/dhcpd.hosts",
     content => "# static DHCP hosts\n",
-    order   => 01,
+    order   => '01',
   }
 
   service { $servicename:
     ensure    => running,
     enable    => true,
     hasstatus => true,
+    restart   => "${dhcpd} -t && service ${servicename} restart",
     subscribe => [
       Concat["${dhcp_dir}/dhcpd.pools"],
       Concat["${dhcp_dir}/dhcpd.hosts"],
       File["${dhcp_dir}/dhcpd.conf"]
     ],
-    restart => "${dhcpd} -t && service ${servicename} restart",
     require => $packagename ? {
       undef   => undef,
       default => Package[$packagename],
     }
   }
-
-  include dhcp::monitor
 }

@@ -4,18 +4,16 @@
 define dhcp::host (
   $ip,
   $mac,
-  $comment=''
-) {
-
-  $host = $name
-  include dhcp::params
-
+  $comment  = '',
+  $host     = $name,
   $dhcp_dir = $dhcp::params::dhcp_dir
+) inherits dhcp::parmas {
+
+  include dhcp::conf::hosts
 
   concat::fragment { "dhcp_host_${name}":
     target  => "${dhcp_dir}/dhcpd.hosts",
     content => template('dhcp/dhcpd.host.erb'),
-    order   => 10,
+    order   => '10',
   }
 }
-

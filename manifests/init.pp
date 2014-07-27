@@ -79,7 +79,9 @@ class dhcp (
   }
   #
   # Build up the dhcpd.conf
-  concat {  "${dhcp_dir}/dhcpd.conf": }
+  concat {  "${dhcp_dir}/dhcpd.conf":
+    notify => $servicename,
+  }
 
   concat::fragment { 'dhcp-conf-header':
     target  => "${dhcp_dir}/dhcpd.conf",
@@ -123,11 +125,6 @@ class dhcp (
     enable    => true,
     hasstatus => true,
     restart   => "${dhcpd} -t && service ${servicename} restart",
-    subscribe => [
-      Concat["${dhcp_dir}/dhcpd.pools"],
-      Concat["${dhcp_dir}/dhcpd.hosts"],
-      File["${dhcp_dir}/dhcpd.conf"]
-    ],
     require => $packagename ? {
       undef   => undef,
       default => Package[$packagename],

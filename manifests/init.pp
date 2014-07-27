@@ -2,6 +2,28 @@
 #
 # Configure a DHCP server
 #
+# Paramaters:
+#  $authoratative
+#  $dnsdomain
+#  $nameservers
+#  $ntpservers
+#  $dhcp_conf_header
+#  $dhcp_conf_pxe
+#  $dhcp_conf_extra
+#  $dhcp_conf_fragments
+#  $interfaces
+#  $pxeserver
+#  $pxefilename
+#  $logfacility
+#  $default_lease_time
+#  $max_lease_time
+#  $failover
+#  $ddns
+#  $dhcp_dir
+#  $packagename
+#  $servicename
+#  $dhcpd
+#
 class dhcp (
   $authoratative       = true,
   $dnsdomain           = '',
@@ -12,7 +34,6 @@ class dhcp (
   $dhcp_conf_extra     = 'dhcp/dhcpd.conf-extra.erb',  # default template
   $dhcp_conf_fragments = {},
   $interfaces          = undef,
-  $interface           = undef,
   $pxeserver           = undef,
   $pxefilename         = undef,
   $logfacility         = 'daemon',

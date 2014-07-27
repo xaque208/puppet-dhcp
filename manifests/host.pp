@@ -6,11 +6,13 @@ define dhcp::host (
   $mac,
   $comment     = '',
   $host        = $name,
+) {
+
+  include dhcp::params
+  include dhcp::conf::hosts
+
   $dhcp_dir    = $dhcp::params::dhcp_dir,
   $servicename = $dhcp::params::servicename,
-) inherits dhcp::parmas {
-
-  include dhcp::conf::hosts
 
   concat::fragment { "dhcp_host_${name}":
     target  => "${dhcp_dir}/dhcpd.hosts",

@@ -5,10 +5,13 @@
 #
 define dhcp::conf {
 
-  $content = inline_template("include \"${name}\";")
+  include dhcp::params
+
+  $dhcp_dir = $dhcp::params::dhcp_dir
+  $content  = inline_template("include \"${name}\";")
 
   concat::fragment { "dhcp-conf-${name}":
-    target  => $name,
+    target  => "${dhcp_dir}/dhcpd.hosts",
     content => $content,
     order   => '99',
   }

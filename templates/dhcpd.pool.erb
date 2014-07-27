@@ -1,5 +1,5 @@
 # ----------
-# <%= @name @network @mask %>
+# <%= @name %>
 # ----------
 subnet <%= @network %> netmask <%= @mask %> {
   pool
@@ -16,7 +16,7 @@ subnet <%= @network %> netmask <%= @mask %> {
 <% if @gateway -%>
   option routers <%= @gateway %>;
 <% end %>
-<% @options].each do |k,v| -%>
+<% @options.each do |k,v| -%>
   option <%= k %> <%= v %>;
 <% end -%>
 <% @parameters.each do |k,v| -%>

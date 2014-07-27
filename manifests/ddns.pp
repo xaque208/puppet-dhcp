@@ -12,10 +12,10 @@ class dhcp::ddns (
 
   include dhcp::params
 
-  validate_bool($ddns_support)
-  if $ddns_support == 'false' {
-    notify { "DDNS is not supported on ${::operatingsystem}": }
-  }
+  #validate_bool($ddns_support)
+  #if $ddns_support == 'false' {
+  #  notify { "DDNS is not supported on ${::operatingsystem}": }
+  #}
 
   $dhcp_dir    = $dhcp::params::dhcp_dir
   $packagename = $dhcp::params::packagename

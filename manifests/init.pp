@@ -104,7 +104,7 @@ class dhcp (
 
   # Using DDNS will require a dhcp::ddns class composition, else, we should
   # turn it off.
-  unless ( $ddns ) {
+  unless ($ddns) {
     class { 'dhcp::ddns': enable => false; }
   }
 

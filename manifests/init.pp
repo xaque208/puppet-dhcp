@@ -50,7 +50,7 @@ class dhcp (
       include dhcp::debian
     }
     'openbsd': {
-      include dhcp::openbsd
+      #include dhcp::openbsd
     }
   }
 

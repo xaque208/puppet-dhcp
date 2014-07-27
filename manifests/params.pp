@@ -10,6 +10,7 @@ class dhcp::params {
       $packagename = 'isc-dhcp-server'
       $servicename = 'isc-dhcp-server'
       $dhcpd       = '/usr/sbin/dhcpd'
+      $logfacility = 'daemon'
     }
     'ubuntu': {
       if versioncmp($::operatingsystemrelease, '12.04') >= 0 {
@@ -20,28 +21,33 @@ class dhcp::params {
       }
       $packagename = 'isc-dhcp-server'
       $servicename = 'isc-dhcp-server'
+      $logfacility = 'daemon'
     }
     'darwin': {
       $dhcp_dir    = '/opt/local/etc/dhcp'
       $packagename = 'dhcp'
       $servicename = 'org.macports.dhcpd'
+      $logfacility = 'daemon'
     }
     'freebsd': {
       $dhcp_dir    = '/usr/local/etc'
       $packagename = 'net/isc-dhcp42-server'
       $servicename = 'isc-dhcpd'
       $dhcpd       = '/usr/local/sbin/dhcpd'
+      $logfacility = 'daemon'
     }
     'openbsd': {
       $dhcp_dir    = '/etc'
-      $packagename = undef
+      $packagename = undef # Use dhcpd(8) from base
       $servicename = 'dhcpd'
       $dhcpd       = '/usr/sbin/dhcpd'
+      $logfacility = undef # Not supported on OpenBSD
     }
     'redhat','fedora','centos': {
       $dhcp_dir    = '/etc/dhcp'
       $packagename = 'dhcp'
       $servicename = 'dhcpd'
+      $logfacility = 'daemon'
     }
   }
 }

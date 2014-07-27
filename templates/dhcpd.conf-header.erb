@@ -17,10 +17,10 @@ log-facility <%= @logfacility %>;
 # ----------
 # Options
 # ----------
-option domain-name "<%= @dnsdomain %>";
-option domain-name-servers <%= @nameservers.join(', ') %>;
-option ntp-servers <%= @ntpservers.join(', ') %>;
-option fqdn.no-client-update on;  # set the "O" and "S" flag bits
-option fqdn.rcode2 255;
-option pxegrub code 150 = text;
+#option domain-name "<%= @dnsdomain %>";
+#option domain-name-servers <%= @nameservers.join(', ') %>;
+#option ntp-servers <%= @ntpservers.join(', ') %>;
+#option fqdn.no-client-update on;  # set the "O" and "S" flag bits
+#option fqdn.rcode2 255;
+#option pxegrub code 150 = text;
 

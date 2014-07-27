@@ -14,11 +14,11 @@
 #  $interfaces
 #  $pxeserver
 #  $pxefilename
-#  $logfacility
 #  $default_lease_time
 #  $max_lease_time
 #  $failover
 #  $ddns
+#  $logfacility
 #  $dhcp_dir
 #  $packagename
 #  $servicename
@@ -37,17 +37,16 @@ class dhcp (
   $interface           = undef,
   $pxeserver           = undef,
   $pxefilename         = undef,
-  $logfacility         = 'daemon',
   $default_lease_time  = 3600,
   $max_lease_time      = 86400,
   $failover            = '',
   $ddns                = false,
+  $logfacility         = $dhcp::params::logfacility,
   $dhcp_dir            = $dhcp::params::dhcp_dir,
   $packagename         = $dhcp::params::packagename,
   $servicename         = $dhcp::params::servicename,
   $dhcpd               = $dhcp::params::dhcpd,
 ) inherits dhcp::params {
-
 
   include concat::setup
 
@@ -92,7 +91,7 @@ class dhcp (
   concat::fragment { 'dhcp-conf-pxe':
     target  => "${dhcp_dir}/dhcpd.conf",
     content => template($dhcp_conf_pxe),
-    order   => 20,
+    order   => '20',
   }
 
   concat::fragment { 'dhcp-conf-extra':

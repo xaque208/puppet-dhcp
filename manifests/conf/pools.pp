@@ -3,7 +3,7 @@
 # Dependencies for all dhcp::pools resources.  Builds the dhcp.pools
 # file.
 #
-class dhcp::conf::hosts (
+class dhcp::conf::pools (
   $dhcp_dir    = $dhcp::params::dhcp_dir,
   $servicename = $dhcp::params::servicename,
 ) inherits dhcp::params {

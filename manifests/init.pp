@@ -34,6 +34,7 @@ class dhcp (
   $dhcp_conf_extra     = 'dhcp/dhcpd.conf-extra.erb',  # default template
   $dhcp_conf_fragments = {},
   $interfaces          = undef,
+  $interface           = undef,
   $pxeserver           = undef,
   $pxefilename         = undef,
   $logfacility         = 'daemon',

@@ -11,6 +11,9 @@ define dhcp::pool (
 
   include dhcp::conf::pools
 
+  validate_hash($options)
+  validate_hash($parameters)
+
   concat::fragment { "dhcp_pool_${name}":
     target  => "${dhcp_dir}/dhcpd.pools",
     content => template('dhcp/dhcpd.pool.erb'),

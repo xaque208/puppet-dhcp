@@ -13,12 +13,14 @@ subnet <%= @network %> netmask <%= @mask %> {
   }
 
   option subnet-mask <%= @mask %>;
+<% if @gateway -%>
   option routers <%= @gateway %>;
-<% [@options].flatten.each do |opt| -%>
-  option <%= opt %>;
+<% end %>
+<% @options].each do |k,v| -%>
+  option <%= k %> <%= v %>;
 <% end -%>
-<% [@parameters].flatten.each do |param| -%>
-  <%= param %>;
+<% @parameters.each do |k,v| -%>
+  <%= k %> <%= v %>;
 <% end -%>
 }
 

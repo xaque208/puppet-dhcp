@@ -38,10 +38,11 @@ class dhcp::params {
     }
     'openbsd': {
       $dhcp_dir    = '/etc'
-      $packagename = undef # Use dhcpd(8) from base
+      #$packagename = undef # Use dhcpd(8) from base
+      $packagename = 'isc-dhcp-server'
       $servicename = 'dhcpd'
-      $dhcpd       = '/usr/sbin/dhcpd'
-      $logfacility = undef # Not supported on OpenBSD
+      $dhcpd       = '/usr/local/sbin/dhcpd'
+      $logfacility = 'daemon' # Not supported on OpenBSD
     }
     'redhat','fedora','centos': {
       $dhcp_dir    = '/etc/dhcp'

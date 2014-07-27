@@ -6,7 +6,7 @@ define dhcp::pool (
   $failover   = '',
   $options    = '',
   $parameters = '',
-) inherits dhcp::params {
+) {
 
   include dhcp::params
   include dhcp::conf::pools

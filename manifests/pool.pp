@@ -6,10 +6,12 @@ define dhcp::pool (
   $failover   = '',
   $options    = '',
   $parameters = '',
-  $dhcp_dir   = $dhcp::params::dhcp_dir
-) inherits dhcp::parmas {
+) inherits dhcp::params {
 
+  include dhcp::params
   include dhcp::conf::pools
+
+  $dhcp_dir = $dhcp::params::dhcp_dir
 
   validate_hash($options)
   validate_hash($parameters)

@@ -118,26 +118,6 @@ class dhcp (
   # }
   create_resources('concat::fragment', $dhcp_conf_fragments)
 
-  #
-  # Build the dhcpd.pools
-  concat { "${dhcp_dir}/dhcpd.pools": }
-
-  concat::fragment { 'dhcp-pools-header':
-    target  => "${dhcp_dir}/dhcpd.pools",
-    content => "# DHCP Pools\n",
-    order   => 01,
-  }
-
-  #
-  # Build the dhcpd.hosts
-  concat { "${dhcp_dir}/dhcpd.hosts": }
-
-  concat::fragment { 'dhcp-hosts-header':
-    target  => "${dhcp_dir}/dhcpd.hosts",
-    content => "# static DHCP hosts\n",
-    order   => '01',
-  }
-
   service { $servicename:
     ensure    => running,
     enable    => true,

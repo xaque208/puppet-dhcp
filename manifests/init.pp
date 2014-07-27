@@ -98,7 +98,7 @@ class dhcp (
   concat::fragment { 'dhcp-conf-extra':
     target  => "${dhcp_dir}/dhcpd.conf",
     content => template($dhcp_conf_extra),
-    order   => 99,
+    order   => '98',
   }
 
   # Using DDNS will require a dhcp::ddns class composition, else, we

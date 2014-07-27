@@ -9,6 +9,8 @@ class dhcp::conf::hosts (
 
   include concat::setup
 
+  dhcp::conf {"${dhcp_dir}/dhcpd.hosts": }
+
   # Build the dhcpd.hosts
   concat { "${dhcp_dir}/dhcpd.hosts":
     notify => Service[$servicename],

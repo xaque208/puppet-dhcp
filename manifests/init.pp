@@ -60,8 +60,6 @@ class dhcp (
     $dhcp_interfaces = $interfaces
   }
 
-
-
   if $packagename {
     package { $packagename:
       ensure => installed,
@@ -102,8 +100,8 @@ class dhcp (
     order   => 99,
   }
 
-  # Using DDNS will require a dhcp::ddns class composition, else, we should
-  # turn it off.
+  # Using DDNS will require a dhcp::ddns class composition, else, we
+  # should turn it off.
   unless ($ddns) {
     class { 'dhcp::ddns': enable => false; }
   }
@@ -150,8 +148,11 @@ class dhcp (
       Concat["${dhcp_dir}/dhcpd.hosts"],
       File["${dhcp_dir}/dhcpd.conf"]
     ],
-    restart   => "${dhcpd} -t && service ${servicename} restart",
-    require   => Package[$packagename],
+    restart => "${dhcpd} -t && service ${servicename} restart",
+    require => $packagename ? {
+      undef   => undef,
+      default => Package[$packagename],
+    }
   }
 
   include dhcp::monitor

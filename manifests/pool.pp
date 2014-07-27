@@ -11,7 +11,8 @@ define dhcp::pool (
   include dhcp::params
   include dhcp::conf::pools
 
-  $dhcp_dir = $dhcp::params::dhcp_dir
+  $dhcp_dir    = $dhcp::params::dhcp_dir
+  $servicename = $dhcp::params::servicename
 
   validate_hash($options)
   validate_hash($parameters)

@@ -1,6 +1,10 @@
+# Class: dhcp::params
+#
+# Set some paramaters for the curernt platform.
+#
 class dhcp::params {
 
-  case $operatingsystem {
+  case $::operatingsystem {
     'debian': {
       $dhcp_dir    = '/etc/dhcp'
       $packagename = 'isc-dhcp-server'
@@ -28,11 +32,16 @@ class dhcp::params {
       $servicename = 'isc-dhcpd'
       $dhcpd       = '/usr/local/sbin/dhcpd'
     }
+    'openbsd': {
+      $dhcp_dir    = '/etc'
+      $packagename = undef
+      $servicename = 'dhcpd'
+      $dhcpd       = '/usr/sbin/dhcpd'
+    }
     'redhat','fedora','centos': {
       $dhcp_dir    = '/etc/dhcp'
       $packagename = 'dhcp'
       $servicename = 'dhcpd'
     }
   }
-
 }

@@ -1,56 +1,60 @@
-# ----------
-# DHCP Server Configuration
-# ----------
+# Class: dhcp
+#
+# Configure a DHCP server
+#
 class dhcp (
-  $dnsdomain,
-  $nameservers,
-  $ntpservers,
+  $authoratative       = true,
+  $dnsdomain           = '',
+  $nameservers         = [],
+  $ntpservers          = [],
   $dhcp_conf_header    = 'dhcp/dhcpd.conf-header.erb', # default template
   $dhcp_conf_pxe       = 'dhcp/dhcpd.conf.pxe.erb',    # default template
   $dhcp_conf_extra     = 'dhcp/dhcpd.conf-extra.erb',  # default template
   $dhcp_conf_fragments = {},
   $interfaces          = undef,
-  $interface           = 'NOTSET',
+  $interface           = undef,
   $pxeserver           = undef,
   $pxefilename         = undef,
   $logfacility         = 'daemon',
   $default_lease_time  = 3600,
   $max_lease_time      = 86400,
   $failover            = '',
-  $ddns                = false
-) {
+  $ddns                = false,
+  $dhcp_dir            = $dhcp::params::dhcp_dir,
+  $packagename         = $dhcp::params::packagename,
+  $servicename         = $dhcp::params::servicename,
+  $dhcpd               = $dhcp::params::dhcpd,
+) inherits dhcp::params {
 
-  include dhcp::params
-
-  $dhcp_dir    = $dhcp::params::dhcp_dir
-  $packagename = $dhcp::params::packagename
-  $servicename = $dhcp::params::servicename
-  $dhcpd       = $dhcp::params::dhcpd
 
   # Incase people set interface instead of interfaces work around
   # that. If they set both, use interfaces and the user is a unwise
   # and deserves what they get.
-  if $interface != 'NOTSET' and $interfaces == undef {
+  if $interface != undef and $interfaces == undef {
     $dhcp_interfaces = [ $interface ]
-  } elsif $interface == 'NOTSET' and $interfaces == undef {
+  } elsif $interface == undef and $interfaces == undef {
     fail ("You need to set \$interfaces in ${module_name}")
   } else {
     $dhcp_interfaces = $interfaces
   }
 
-  package { $packagename:
-    ensure => installed,
+  if $packagename {
+    package { $packagename:
+      ensure => installed,
+    }
   }
 
   # OS Specifics
-  case $operatingsystem {
+  case $::operatingsystem {
     'debian','ubuntu': {
       include dhcp::debian
+    }
+    'openbsd': {
+      include dhcp::openbsd
     }
   }
 
   include concat::setup
-  Concat { require => Package[$packagename] }
 
   #
   # Build up the dhcpd.conf
@@ -77,7 +81,7 @@ class dhcp (
   # Using DDNS will require a dhcp::ddns class composition, else, we should
   # turn it off.
   unless ( $ddns ) {
-    class { "dhcp::ddns": enable => false; }
+    class { 'dhcp::ddns': enable => false; }
   }
 
   # Any additional dhcpd.conf fragments the user passed in as a hash for
@@ -117,11 +121,14 @@ class dhcp (
     ensure    => running,
     enable    => true,
     hasstatus => true,
-    subscribe => [Concat["${dhcp_dir}/dhcpd.pools"], Concat["${dhcp_dir}/dhcpd.hosts"], File["${dhcp_dir}/dhcpd.conf"]],
-    require   => Package[$packagename],
+    subscribe => [
+      Concat["${dhcp_dir}/dhcpd.pools"],
+      Concat["${dhcp_dir}/dhcpd.hosts"],
+      File["${dhcp_dir}/dhcpd.conf"]
+    ],
     restart   => "${dhcpd} -t && service ${servicename} restart",
+    require   => Package[$packagename],
   }
 
   include dhcp::monitor
-
 }

@@ -11,7 +11,7 @@ define dhcp::conf {
   $content  = inline_template("include \"${name}\";")
 
   concat::fragment { "dhcp-conf-${name}":
-    target  => "${dhcp_dir}/dhcpd.hosts",
+    target  => "${dhcp_dir}/dhcpd.conf",
     content => $content,
     order   => '99',
   }

@@ -80,7 +80,7 @@ class dhcp (
   #
   # Build up the dhcpd.conf
   concat {  "${dhcp_dir}/dhcpd.conf":
-    notify => $servicename,
+    notify => Service[$servicename],
   }
 
   concat::fragment { 'dhcp-conf-header':

@@ -12,7 +12,7 @@ class dhcp::conf::hosts (
 
   # Build the dhcpd.pools
   concat { "${dhcp_dir}/dhcpd.pools":
-    notify => $servicename,
+    notify => Service[$servicename],
   }
 
   concat::fragment { 'dhcp-pools-header':

@@ -11,7 +11,7 @@ class dhcp::conf::hosts (
 
   # Build the dhcpd.hosts
   concat { "${dhcp_dir}/dhcpd.hosts":
-    notify => $servicename,
+    notify => Service[$servicename],
   }
 
   concat::fragment { 'dhcp-hosts-header':

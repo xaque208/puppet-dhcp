@@ -16,6 +16,6 @@ define dhcp::host (
     target  => "${dhcp_dir}/dhcpd.hosts",
     content => template('dhcp/dhcpd.host.erb'),
     order   => '10',
-    notify  => $servicename,
+    notify  => Service[$servicename],
   }
 }
